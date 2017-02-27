@@ -1,0 +1,12 @@
+#!/bin/sh
+d="`dirname "$0"`"
+echo $d
+d="`cd "$d" && pwd`"
+echo $d
+bin="$HOME/bin"
+for i in *.rb; do
+	echo ln -s "$d/$i" "$bin/`basename "$i" .rb`"
+done
+for i in *.sh; do
+	echo ln -s "$d/$i" "$bin/`basename "$i" .sh`"
+done
