@@ -1,24 +1,26 @@
-#!/bin/sh
-if test "X$1" = X-alt; then
-	PATH=$HOME/buildery/gobuild/g/bin:$PATH
-	shift
-else
-	PATH=$HOME/gobuild/g/bin:$PATH
+#!/bin/bash
+
+if test -d "$HOME"/buildery/gobuild; then
+    PATH="$HOME/buildery/gobuild/g/bin:$PATH"
 fi
-if test "X$1" = X-win; then
+
+case "$1" in
+    -win)
 	export GOOS=windows
 	export GOARCH=386
 	shift
-elif test "X$1" = X-arm; then
+	;;
+    -arm)
 	export GOOS=linux
 	export GOARCH=arm
 	shift
-elif test "X$1" = X-netarm; then
+	;;
+    -netarm)
 	export GOOS=netbsd
 	export GOARCH=arm
-	export GOARM=7
 	shift
-fi
+	;;
+esac
 d="`pwd`"
 GOBIN="$d"/bin
 export GOBIN
