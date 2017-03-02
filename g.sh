@@ -40,6 +40,7 @@ while true; do
     d="`dirname "$d"`"
 done
 if test "X$1" = X--; then
+    shift
     exec "$@"
 fi
 exec go "$@"
