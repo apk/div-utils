@@ -34,5 +34,8 @@ that directory and `GOBIN` to its `bin` subdirectory,
 and then invoked `go` with the same arguments
 except for the options taken above.
 
-It currently also does some `PATH` magic that
-makes it unusable in any non-mine-like setup.
+It currently also does some `PATH` magic if
+`"$HOME"/buildery/gobuild` exists - it then
+will put its `g/bin` first in `PATH`.
+([Buildery](https://github.com/apk/buildery)
+bootstraps go from sources.)
