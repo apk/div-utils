@@ -21,6 +21,21 @@ pid=nil
 
 while sleep 1 do
 
+  if pid
+    r=Process.wait pid, Process::WNOHANG
+    if r == pid
+      s=$?
+      pid=nil
+      if s.exitstatus == 0
+        puts "Run ok"
+      else
+        puts "Run terminated #{$?.inspect}"
+      end
+    else
+      puts "? wait undone: #{r.inspect}"
+    end
+  end
+
   nstat=files.map do |f|
     begin
       s=File::Stat.new(f)
