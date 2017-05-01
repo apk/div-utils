@@ -7,6 +7,9 @@ while (i=a.index('--'))
   a=a[i+1..-1]
 end
 sets.push(a)
+sets.map! do |s|
+  s.map! {|x| x.sub(/^---/,'--') }
+end
 puts sets.inspect
 
 files=sets.shift
