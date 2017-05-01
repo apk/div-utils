@@ -1,6 +1,22 @@
 #!/usr/bin/ruby
 
 a=ARGV
+
+if a.size == 1
+  n=0
+  File.readlines(a[0]).each do |l|
+    if l =~ /\brun-on-change\s/
+      a=$'.split
+      break
+    end
+    n+=1
+    if n > 10
+      puts "No run-on-change line found in #{a[0]}"
+      exit
+    end
+  end
+end
+
 sets=[]
 while (i=a.index('--'))
   sets.push(a[0..i-1])

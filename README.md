@@ -15,6 +15,12 @@ the next change is detected.
 build and restarts your go binary every time
 you save it from the editor.
 
+If `run-on-change` is invoked with a single
+argument that is taken as a file, and the token
+`run-on-change` must appear in the first dozen lines,
+followed by arguments. Thus you can put the actual
+command into the file you are testing.
+
 ## `g`
 
 A `go` wrapper. Has a few options to make
