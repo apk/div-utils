@@ -47,7 +47,7 @@ while sleep 1 do
       else
         puts "Run terminated #{$?.inspect}"
       end
-    else
+    elsif r
       puts "? wait undone: #{r.inspect}"
     end
   end
