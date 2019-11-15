@@ -35,7 +35,7 @@ sets.map! do |s|
 end
 puts sets.inspect
 
-files=sets.shift
+files=sets.shift.map {|x| Dir.glob(x) }.flatten
 run=sets.pop
 
 stats=[]
