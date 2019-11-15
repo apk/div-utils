@@ -2,6 +2,8 @@
 
 a=ARGV
 
+do_kill=true
+
 if a.size == 1
   n=0
   File.readlines(a[0]).each do |l|
@@ -15,6 +17,11 @@ if a.size == 1
       exit
     end
   end
+end
+
+if a[0] == '--no-kill'
+  do_kill=false
+  a.shift
 end
 
 sets=[]
@@ -62,10 +69,14 @@ while sleep 1 do
   end
   if nstat != stats
     if pid
-      puts "Kill #{pid}..."
-      Process.kill "INT", pid
-      Process.wait pid
-      pid=nil
+      if do_kill
+        puts "Kill #{pid}..."
+        Process.kill "INT", pid
+        Process.wait pid
+        pid=nil
+      else
+        puts "Not killing #{pid}..."
+      end
     end
     stats=nstat
     if sets.all? do |c|
