@@ -32,6 +32,25 @@ last command on a new file change, a new run of the
 command sequence then only starts when the last command
 voluntarily terminates.
 
+## `fifresh`
+
+Run a fresh instance of firefox with a freshly made profile.
+(Bookmarking is obviously pointless in there.) Has a few options
+to tweak the `user.js` configuration before starting firefox on it.
+
+All arguments from the first non-option or after a `--`
+are passed to firefox.
+
+On start, cleans up old profiles (where the browser has
+terminated) left in `/tmp`.
+
+Options:
+
+* `-v`: Show generated `user.js` and firefox invocation.
+* `--moo`: Disable smooth scroll.
+* `-N`, `--socks=N`: Use a socks5 proxy at the given port on localhost. N must be three to five digits.
+* `--`: Stop option processing and pass remaining args to firefox.
+
 ## `g`
 
 A `go` wrapper. Has a few options to make
