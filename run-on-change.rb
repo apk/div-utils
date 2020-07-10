@@ -1,14 +1,21 @@
 #!/usr/bin/ruby
 
+require 'time'
+
+def timstr
+  Time.now.to_datetime.strftime "%H:%M:%S"
+end
+
 a=ARGV
 
 do_kill=true
 
 if a.size == 1
   n=0
-  File.readlines(a[0]).each do |l|
+  fn=a[0]
+  File.readlines(fn).each do |l|
     if l =~ /\brun-on-change\s/
-      a=$'.split
+      a=$'.gsub('%') { fn.gsub(/.*\//,'') }.split
       break
     end
     n+=1
@@ -17,6 +24,8 @@ if a.size == 1
       exit
     end
   end
+
+  Dir.chdir(File.dirname(fn))
 end
 
 if a[0] == '--no-kill'
@@ -41,6 +50,7 @@ run=sets.pop
 stats=[]
 
 pid=nil
+start=nil
 
 while sleep 1 do
 
@@ -50,10 +60,13 @@ while sleep 1 do
       s=$?
       pid=nil
       if s.exitstatus == 0
-        puts "Run ok"
+        t=((Time.now.to_f-start)*10).to_i
+        w="Run ok (#{t/10}.#{t%10}s)"
       else
-        puts "Run terminated #{$?.inspect}"
+        w="Run terminated #{$?.inspect}"
       end
+      w+=' ' while w.length < 25
+      puts "#{w} [#{timstr}]"
     elsif r
       puts "? wait undone: #{r.inspect}"
     end
@@ -83,8 +96,10 @@ while sleep 1 do
         puts "Build [#{c.join ' '}]..."
         system([c[0],c[0]],*c[1..-1])
       end
+      puts '---------------------------------------------------'
       puts "Run [#{run.join ' '}]..."
       pid=Process.spawn([run[0],run[0]],*run[1..-1])
+      start=Time.now.to_f
     else
       puts "Failed..."
     end

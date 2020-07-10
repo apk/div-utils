@@ -19,7 +19,9 @@ If `run-on-change` is invoked with a single
 argument that is taken as a file, and the token
 `run-on-change` must appear in the first dozen lines,
 followed by arguments. Thus you can put the actual
-command into the file you are testing.
+command into the file you are testing. In that line,
+`%` signs are replaced with the base name of the
+containing file, so `# run-on-change % -- ruby %` works.
 
 File names in the dependents list can be globs
 (on the command line as well as in a `run-on-change`
