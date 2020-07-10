@@ -15,9 +15,21 @@ case "$1" in
 	export GOARCH=arm
 	shift
 	;;
+    -arm6)
+	export GOOS=linux
+	export GOARCH=arm
+	export GOARM=6
+	shift
+	;;
+    -net)
+	export GOOS=netbsd
+	export GOARCH=386
+	shift
+	;;
     -netarm)
 	export GOOS=netbsd
 	export GOARCH=arm
+	export GOARM=7
 	shift
 	;;
 esac
