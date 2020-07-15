@@ -37,7 +37,7 @@ while test $# -gt 0; do
 	    shift
 	    ;;
 	X-[0-9][0-9][0-9]|X-[0-9][0-9][0-9][0-9]|X-[0-9][0-9][0-9][0-9][0-9])
-	    port="$1"
+	    port=`expr "x$1" : '[^-]*-\(.*\)'`
 	    user_pref "network.proxy.socks" '"localhost"'
 	    user_pref "network.proxy.socks_port" "$port"
 	    user_pref "network.proxy.socks_remote_dns" true
