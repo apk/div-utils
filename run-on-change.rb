@@ -9,13 +9,31 @@ end
 a=ARGV
 
 do_kill=true
+do_abs=false
+
+while true
+  case a[0]
+  when '--no-kill'
+    do_kill=false
+    a.shift
+  when '--abs'
+    do_abs=true
+    a.shift
+  else
+    break
+  end
+end
 
 if a.size == 1
   n=0
   fn=a[0]
   File.readlines(fn).each do |l|
     if l =~ /\brun-on-change\s/
-      a=$'.gsub('%') { fn.gsub(/.*\//,'') }.split
+      if do_abs
+        a=$'.gsub('%') { fn }.split
+      else
+        a=$'.gsub('%') { fn.gsub(/.*\//,'') }.split
+      end
       break
     end
     n+=1
@@ -25,12 +43,7 @@ if a.size == 1
     end
   end
 
-  Dir.chdir(File.dirname(fn))
-end
-
-if a[0] == '--no-kill'
-  do_kill=false
-  a.shift
+  Dir.chdir(File.dirname(fn)) unless do_abs
 end
 
 sets=[]
