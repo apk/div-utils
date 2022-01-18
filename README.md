@@ -22,17 +22,22 @@ followed by arguments. Thus you can put the actual
 command into the file you are testing. In that line,
 `%` signs are replaced with the base name of the
 containing file, so `# run-on-change % -- ruby %` works.
+Also, the current directory is changed to the directory
+containing the single file.
 
 File names in the dependents list can be globs
 (on the command line as well as in a `run-on-change`
 line in a file), so `run-on-change **/*.rb -- ruby main.rb`
 will rerun your app whenever any ruby file changes.
-(The glob itself is only evaluated once at startup, though.)
 
 The option `--no-kill` disables active killing of the
 last command on a new file change, a new run of the
 command sequence then only starts when the last command
 voluntarily terminates.
+
+The option `--abs` prevents the directory change in the
+single-file-name mode; and `%` are replaced by the full
+file name.
 
 ## `fifresh`
 
