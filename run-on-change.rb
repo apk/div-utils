@@ -57,7 +57,7 @@ sets.map! do |s|
 end
 puts sets.inspect
 
-files=sets.shift.map {|x| Dir.glob(x) }.flatten
+files=sets.shift
 run=sets.pop
 
 stats=[]
@@ -85,10 +85,10 @@ while sleep 1 do
     end
   end
 
-  nstat=files.map do |f|
+  nstat=files.flat_map {|x| Dir.glob(x) }.sort.map do |f|
     begin
       s=File::Stat.new(f)
-      s=[s.mtime,s.size]
+      s=[f,s.mtime,s.size]
     rescue => e
       s=e.inspect
     end
