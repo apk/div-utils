@@ -26,10 +26,16 @@ user_pref() {
 }
 
 verb=false
-fifo="$HOME/firefox/firefox"
-policies=true
 
-test -x "$fifo" || fifo=firefox
+fifo=firefox
+policies=false
+for i in "/workspaces/$HOSTNAME/$USER/firefox/firefox" "$HOME/firefox/firefox"; do
+  if test -x "$i"; then
+    fifo="$i"
+    policies=true
+    break
+  fi
+done
 
 moo=false
 
@@ -42,12 +48,12 @@ esac
 while test $# -gt 0; do
     case X"$1" in
 	X--esr)
-	    fifo="$HOME/esr/firefox/firefox"
-	    policies=false
+	    fifo="$HOME/firefox-esr/firefox"
 	    shift
 	    ;;
 	X--fifo=*)
 	    fifo="`expr "x$1" : '[^=]*=\(.*\)'`"
+	    policies=false
 	    shift
 	    ;;
 	X/*)
@@ -106,7 +112,7 @@ user_pref "browser.translations.automaticallyPopup" false
 user_pref "browser.ctrlTab.recentlyUsedOrder" false
 user_pref "datareporting.policy.dataSubmissionEnabled" false
 
-if $policies
+if $policies; then
   d=$HOME/firefox/distributions
   test -d "$d" || mkdir "$d"
   p="$d/policies.json"
