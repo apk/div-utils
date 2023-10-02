@@ -25,9 +25,20 @@ user_pref() {
 }
 
 verb=false
+fifo="$HOME/firefox/firefox"
+
+test -x "$fifo" || fifo=firefox
 
 while test $# -gt 0; do
     case X"$1" in
+	X--esr)
+	    fifo="$HOME/esr/firefox/firefox"
+	    shift
+	    ;;
+	X--fifo=*)
+	    fifo="`expr "x$1" : '[^=]*=\(.*\)'`"
+	    shift
+	    ;;
 	X-v)
 	    verb=true
 	    shift
@@ -52,11 +63,11 @@ while test $# -gt 0; do
 	    user_pref "network.proxy.type" 1
 	    shift
 	    ;;
-	--)
+	X--)
 	    shift
 	    break
 	    ;;
-	-*)
+	X-*)
 	    echo "Bad opt: '$1'"
 	    exit 9
 	    ;;
@@ -73,7 +84,7 @@ if $verb; then
     echo '= user.js'
     cat user.js
     echo '= command'
-    echo firefox --no-remote --private-window --profile "$profile" "$@"
+    echo "$fifo" --no-remote --private-window --profile "$profile" "$@"
 fi
-firefox --no-remote --private-window --profile "$profile" "$@" >log 2>&1 </dev/null &
+"$fifo" --no-remote --private-window --profile "$profile" "$@" >log 2>&1 </dev/null &
 echo "$!" >.pid
