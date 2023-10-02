@@ -51,6 +51,17 @@ are passed to firefox.
 On start, cleans up old profiles (where the browser has
 terminated) left in `/tmp`.
 
+Uses `$HOME/firefox/firefox` by default; `firefox` if that
+doesn't exist, and `$HOME/esr/firefox/firefox` with `--esr`.
+`--fifo=some` executes `some` for starting firefox.
+
+`--moo` disables smooth scrool (good for remote).
+
+`-12345` (any number) sets the profile to use a socks5
+proxy on the given ports. (Handy with `ssh -D 12345`.)
+
+`-v` makes it show the command executed.
+
 Options:
 
 * `-v`: Show generated `user.js` and firefox invocation.
