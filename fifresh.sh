@@ -38,6 +38,7 @@ while test $# -gt 0; do
 	X--fifo=*)
 	    fifo="`expr "x$1" : '[^=]*=\(.*\)'`"
 	    shift
+	    ;;
 	X/*)
 	    if test -x "$1"; then
 		fifo="$1"
