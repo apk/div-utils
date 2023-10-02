@@ -29,6 +29,14 @@ fifo="$HOME/firefox/firefox"
 
 test -x "$fifo" || fifo=firefox
 
+moo=false
+
+case "$DISPLAY" in
+*:[12][0-9].[0-9])
+    moo=true
+    ;;
+esac
+
 while test $# -gt 0; do
     case X"$1" in
 	X--esr)
@@ -52,7 +60,7 @@ while test $# -gt 0; do
 	    shift
 	    ;;
 	X--moo)
-	    user_pref "general.smoothScroll" false
+	    moo=true
 	    shift
 	    ;;
 	X-[0-9][0-9][0-9]|X-[0-9][0-9][0-9][0-9]|X-[0-9][0-9][0-9][0-9][0-9])
@@ -84,6 +92,10 @@ while test $# -gt 0; do
 	    ;;
     esac
 done
+
+if $moo; then
+    user_pref "general.smoothScroll" false
+fi
 
 user_pref "browser.ctrlTab.recentlyUsedOrder" false
 user_pref "datareporting.policy.dataSubmissionEnabled" false
