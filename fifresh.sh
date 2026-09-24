@@ -1,4 +1,13 @@
 #!/bin/sh
+
+# firefox/distribution/policies.json 
+# {
+#   "policies": {
+#     "SkipTermsOfUse": true,
+#     "OverrideFirstRunPage": ""
+#   }
+# }
+
 profdir="/tmp/.$USER/fifresh"
 mkdir -p "profdir"
 cd "profdir"
