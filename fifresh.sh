@@ -112,6 +112,9 @@ user_pref "browser.translations.automaticallyPopup" false
 user_pref "browser.ctrlTab.recentlyUsedOrder" false
 user_pref "datareporting.policy.dataSubmissionEnabled" false
 
+user_pref "browser.download.deletePrivate" false
+user_pref "browser.download.enableDeletePrivate" false
+
 if $policies; then
   d=$HOME/firefox/distributions
   test -d "$d" || mkdir "$d"
