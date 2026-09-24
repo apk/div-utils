@@ -106,6 +106,8 @@ if $moo; then
     user_pref "general.smoothScroll" false
 fi
 
+user_pref "browser.translations.automaticallyPopup" false
+
 user_pref "browser.ctrlTab.recentlyUsedOrder" false
 user_pref "datareporting.policy.dataSubmissionEnabled" false
 
