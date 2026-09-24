@@ -116,7 +116,7 @@ user_pref "browser.download.deletePrivate" false
 user_pref "browser.download.enableDeletePrivate" false
 
 if $policies; then
-  d=$HOME/firefox/distributions
+  d=$HOME/firefox/distribution
   test -d "$d" || mkdir "$d"
   p="$d/policies.json"
   test -f "$p" || cat >"$p" <<EOF
