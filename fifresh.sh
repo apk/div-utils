@@ -1,13 +1,5 @@
 #!/bin/sh
 
-# firefox/distribution/policies.json 
-# {
-#   "policies": {
-#     "SkipTermsOfUse": true,
-#     "OverrideFirstRunPage": ""
-#   }
-# }
-
 profdir="/tmp/.$USER/fifresh"
 mkdir -p "profdir"
 cd "profdir"
@@ -35,6 +27,7 @@ user_pref() {
 
 verb=false
 fifo="$HOME/firefox/firefox"
+policies=true
 
 test -x "$fifo" || fifo=firefox
 
@@ -50,6 +43,7 @@ while test $# -gt 0; do
     case X"$1" in
 	X--esr)
 	    fifo="$HOME/esr/firefox/firefox"
+	    policies=false
 	    shift
 	    ;;
 	X--fifo=*)
@@ -59,6 +53,7 @@ while test $# -gt 0; do
 	X/*)
 	    if test -x "$1"; then
 		fifo="$1"
+		policies=false
 		shift
 	    else
 		break
@@ -110,6 +105,20 @@ user_pref "browser.translations.automaticallyPopup" false
 
 user_pref "browser.ctrlTab.recentlyUsedOrder" false
 user_pref "datareporting.policy.dataSubmissionEnabled" false
+
+if $policies
+  d=$HOME/firefox/distributions
+  test -d "$d" || mkdir "$d"
+  p="$d/policies.json"
+  test -f "$p" || cat >"$p" <<EOF
+{
+  "policies": {
+    "SkipTermsOfUse": true,
+    "OverrideFirstRunPage": ""
+  }
+}
+EOF
+fi
 
 if $verb; then
     echo '= user.js'
