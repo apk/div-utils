@@ -9,6 +9,7 @@ end
 a=ARGV
 
 do_kill=true
+period=nil
 do_abs=false
 
 while true
@@ -45,6 +46,10 @@ if a.size == 1
 
   Dir.chdir(File.dirname(fn)) unless do_abs
 end
+if a[0] =~ /\A--period=(\d+)\Z/
+  period=$1.to_i
+  a.shift
+end
 
 sets=[]
 while (i=a.index('--'))
@@ -65,6 +70,12 @@ stats=[]
 pid=nil
 start=nil
 
+def nowf
+  Time.now.to_f
+end
+
+lastend=nowf
+
 while sleep 1 do
 
   if pid
@@ -73,11 +84,12 @@ while sleep 1 do
       s=$?
       pid=nil
       if s.exitstatus == 0
-        t=((Time.now.to_f-start)*10).to_i
+        t=((nowf-start)*10).to_i
         w="Run ok (#{t/10}.#{t%10}s)"
       else
         w="Run terminated #{$?.inspect}"
       end
+      lastend=nowf
       w+=' ' while w.length < 25
       puts "#{w} [#{timstr}]"
     elsif r
@@ -93,7 +105,7 @@ while sleep 1 do
       s=e.inspect
     end
   end
-  if nstat != stats
+  if nstat != stats or (period and lastend + period < nowf)
     if pid
       if do_kill
         puts "Kill #{pid}..."
@@ -112,7 +124,7 @@ while sleep 1 do
       puts '---------------------------------------------------'
       puts "Run [#{run.join ' '}]..."
       pid=Process.spawn([run[0],run[0]],*run[1..-1])
-      start=Time.now.to_f
+      start=nowf
     else
       puts "Failed..."
     end
