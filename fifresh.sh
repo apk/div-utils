@@ -26,6 +26,7 @@ user_pref() {
 }
 
 verb=false
+priv="--private-window"
 
 fifo=firefox
 policies=false
@@ -47,6 +48,10 @@ esac
 
 while test $# -gt 0; do
     case X"$1" in
+	X--pub)
+	    priv=""
+	    shift
+	    ;;
 	X--esr)
 	    fifo="$HOME/firefox-esr/firefox"
 	    shift
@@ -133,7 +138,7 @@ if $verb; then
     echo '= user.js'
     cat user.js
     echo '= command'
-    echo "$fifo" --no-remote --private-window --profile "$profile" "$@"
+    echo "$fifo" --no-remote $priv --profile "$profile" "$@"
 fi
-"$fifo" --no-remote --private-window --profile "$profile" "$@" >log 2>&1 </dev/null &
+"$fifo" --no-remote $priv --profile "$profile" "$@" >log 2>&1 </dev/null &
 echo "$!" >.pid
