@@ -5,6 +5,7 @@ bg=black
 xbg=000
 fg=white
 xfg=fff
+opa=''
 xfn='Misc Fixed:style=SemiCondensed:pixelsize=13'
 case "`hostname`" in
     socbl965)
@@ -27,6 +28,14 @@ case "$1" in
     ;;
   -11)
     xfn='monospace:size=10'
+    shift
+    ;;
+  -a)
+    opa=0.8
+    shift
+    ;;
+  -a[0-9]|-a[0-9][0-9])
+    opa="0.${1#-a}"
     shift
     ;;
   -f)
@@ -75,6 +84,9 @@ if test -n "${WAYLAND_DISPLAY:-}"; then
     set -- "$@" -o colors.background="`f $xbg`"
     set -- "$@" -o colors.foreground="`f $xfg`"
     set -- "$@" -o cursor.color="`f $xfg` `f $xcc`"
+    if test -n "$opa"; then
+         set -- "$@" -o "colors.alpha=$opa"
+    fi
     # echo "$@"
     exec aenv -U LANG LC_ALL=en_AU.utf8 /usr/bin/foot "$@" 2>/dev/null &
   elif test -x /usr/bin/kitty; then
@@ -85,6 +97,9 @@ if test -n "${WAYLAND_DISPLAY:-}"; then
     set -- "$@" -o background="#`f $xbg`"
     set -- "$@" -o foreground="#`f $xfg`"
     set -- "$@" -o cursor="#`f $xfg`"
+    if test -n "$opa"; then
+         set -- "$@" -o "background_opacity=$opa"
+    fi
     # echo "$@"
     # „For your convenience, your terminal emulator will now contact
     #  seventeen D-Bus services.“ The desktop integration is mandatory.
