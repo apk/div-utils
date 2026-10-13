@@ -69,6 +69,27 @@ Options:
 * `-N`, `--socks=N`: Use a socks5 proxy at the given port on localhost. N must be three to five digits.
 * `--`: Stop option processing and pass remaining args to firefox.
 
+## `todo`
+
+Appends a line to `$HOME/todo.txt` consisting of the current
+date and time, the current directory and the arguments given,
+separated by tabs.
+
+`todo fix the thing` in `/src/proj` adds
+`2026-10-13 15:57:45<TAB>/src/proj<TAB>fix the thing`.
+
+With only options given, nothing is logged; the
+matching notes are listed instead.
+
+Options:
+
+* `-l`: List the notes made in the current directory.
+* `-s`: List the notes made since the start of this week (monday).
+* `--`: Stop option processing, the rest is the note.
+
+`-l` and `-s` combine, so `todo -l -s` lists this week's
+notes of the current directory.
+
 ## `g`
 
 A `go` wrapper. Has a few options to make
